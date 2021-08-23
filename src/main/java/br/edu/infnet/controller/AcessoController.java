@@ -47,7 +47,7 @@ public class AcessoController extends HttpServlet {
 					"<body>" +
 					"	<div>" +	
 					"	<a href='login'>Voltar</a>"+
-					"	<h2> Autentica��o inv�lida para o usu�rio " + email + "!</h2>"+
+					"	<h2> Autenticacao invalida para o usuario " + email + "!</h2>"+
 					"	</div>" +
 					"</body>" +
 					"</html>");

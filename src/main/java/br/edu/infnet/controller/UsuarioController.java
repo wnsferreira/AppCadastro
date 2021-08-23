@@ -39,31 +39,38 @@ public class UsuarioController extends HttpServlet {
 		
 		usuarios.add(usuario);
 		
-		PrintWriter out = response.getWriter();
+		//Passa a informação pra dentro de um atributo e a tela de confirmação jsp recebe a informação e exibe na tela.
 		
-		out.println(
-				"<!DOCTYPE html>\r\n" +
-				"<html>\r\n " +
-				"<head>\r\n " +
-				"<meta charset=\"ISO-8859-1\">\r\n" +
-				"<title>Confirmação!</title> \r\n" +
-				"</head>\r\n" + 
-				"<body> \r\n" +
-				"	<a href='usuario'>Voltar</a>\r\n"+
-				"	<h2> O usuario " + usuario.getNome() + "foi cadastrado com sucesso!!!</h2>\r\n"+
-				"   <h3>Quantidade de usuarios existentes: " + usuarios.size() + "!!!</h3>\r\n" +
-				"    <hr>");
+		request.setAttribute("nomeDoUsuario", usuario.getNome());
+		request.setAttribute("lista",usuarios);
 		
-		for(Usuario user: usuarios) {
-			out.println("<h3>Usuario: " + user.getNome()+"</h3>");
-		}
-		
-		out.println(
-				"	</div>\r\n" +
-				"</body>\r\n" +
-				"</html>");
+		request.getRequestDispatcher("confirmacao.jsp").forward(request, response);
 				
 	}
 	
 
 }
+
+//PrintWriter out = response.getWriter();
+//
+//out.println(
+//		"<!DOCTYPE html>\r\n" +
+//		"<html>\r\n " +
+//		"<head>\r\n " +
+//		"<meta charset=\"ISO-8859-1\">\r\n" +
+//		"<title>Confirmação!</title> \r\n" +
+//		"</head>\r\n" + 
+//		"<body> \r\n" +
+//		"	<a href='usuario'>Voltar</a>\r\n"+
+//		"	<h2> O usuario " + usuario.getNome() + "foi cadastrado com sucesso!!!</h2>\r\n"+
+//		"   <h3>Quantidade de usuarios existentes: " + usuarios.size() + "!!!</h3>\r\n" +
+//		"    <hr>");
+//
+//for(Usuario user: usuarios) {
+//	out.println("<h3>Usuario: " + user.getNome()+"</h3>");
+//}
+//
+//out.println(
+//		"	</div>\r\n" +
+//		"</body>\r\n" +
+//		"</html>");
