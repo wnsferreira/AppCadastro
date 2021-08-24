@@ -20,7 +20,9 @@ public class AcessoController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("login.html").forward(request, response);
+		
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,26 +34,14 @@ public class AcessoController extends HttpServlet {
 		if(usuario != null) {
 			System.out.println("Usuário autenticado: " + usuario.getNome());
 			
-			request.getRequestDispatcher("home.html").forward(request, response);
-		}else {
+			request.setAttribute("lista", UsuarioDao.obterLista());
 			
-			PrintWriter out = response.getWriter();
-					
-			out.println(
-					"<!DOCTYPE html>" +
-					"<html>" +
-					"<head> " +
-					"<meta charset=\"ISO-8859-1\">" +
-					"<title>Confirmaï¿½ï¿½o!</title>" +
-					"</head>" + 
-					"<body>" +
-					"	<div>" +	
-					"	<a href='login'>Voltar</a>"+
-					"	<h2> Autenticacao invalida para o usuario " + email + "!</h2>"+
-					"	</div>" +
-					"</body>" +
-					"</html>");
-					
+			request.getRequestDispatcher("usuario/lista.jsp").forward(request, response);
+		}else {
+									
+			request.setAttribute("mensagem","Autenticacao invalida para o usuario " + email + "!");
+			
+			doGet(request, response);
 		}
 	}
 

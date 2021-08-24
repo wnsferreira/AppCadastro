@@ -11,38 +11,43 @@ import java.util.List;
 import java.io.PrintWriter;	
 
 import br.edu.infnet.model.domain.Usuario;
+import br.edu.infnet.model.repository.UsuarioDao;
 
 public class UsuarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private List<Usuario> usuarios;
-    
+	    
     	public UsuarioController() {
         super();
-        usuarios = new ArrayList<Usuario>();	
+        
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.getRequestDispatcher("home.html").forward(request, response);
+		String tela = request.getParameter("tela");
+		
+		if("lista".equals(tela)){
+			request.getRequestDispatcher("usuario/cadastro.jsp").forward(request, response);
+		}else {
+			request.setAttribute("lista", UsuarioDao.obterLista());
+			request.getRequestDispatcher("usuario/lista.jsp").forward(request, response);
+		}
+		
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Usuario usuario = new Usuario(request.getParameter("nome"), request.getParameter("email"));
-		
+		usuario.setEmail(request.getParameter("email"));
 		usuario.setSenha(request.getParameter("senha"));
 		
 		System.out.println(usuario);
 		
-		//request.getRequestDispatcher("confirmacao.html").forward(request, response);
-		
-		usuarios.add(usuario);
-		
+		UsuarioDao.incluir(usuario);
+				
 		//Passa a informação pra dentro de um atributo e a tela de confirmação jsp recebe a informação e exibe na tela.
 		
 		request.setAttribute("nomeDoUsuario", usuario.getNome());
-		request.setAttribute("lista",usuarios);
+		request.setAttribute("lista",UsuarioDao.obterLista());
 		
 		request.getRequestDispatcher("confirmacao.jsp").forward(request, response);
 				
